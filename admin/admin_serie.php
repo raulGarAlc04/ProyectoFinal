@@ -85,7 +85,21 @@ include '../includes/admin-header.php';
 
         <div class="admin-article">
             <section class="image">
-                <?php if (!$saved_image) { ?>
+                <?php if ($saved_image) { ?>
+                    <label>Imagen actual:</label>
+                    <img src="../uploads/<?= html_escape($serie['image_file']) ?>"
+                        alt="<?= html_escape($serie['image_alt']) ?>">
+                    <p class="alt"><strong>Texto alternativo:</strong> <?= html_escape($serie['image_alt']) ?></p>
+
+                    <div class="form-group">
+                        <label for="image">Cambiar imagen:</label>
+                        <input type="file" name="image" class="form-control-file" id="image"><br>
+                    </div>
+                    <div class="form-group">
+                        <label for="image_alt">Nuevo texto alternativo:</label>
+                        <input type="text" name="image_alt" id="image_alt" value="<?= html_escape($serie['image_alt']) ?>" class="form-control">
+                    </div>
+                <?php } else { ?>
                     <label for="image">Subir Imagen:</label>
                     <div class="form-group image-placeholder">
                         <input type="file" name="image" class="form-control-file" id="image"><br>
@@ -94,11 +108,6 @@ include '../includes/admin-header.php';
                         <label for="image_alt">Texto alternativo: </label>
                         <input type="text" name="image_alt" id="image_alt" value="" class="form-control">
                     </div>
-                <?php } else { ?>
-                    <label>Imagen:</label>
-                    <img src="../uploads/<?= html_escape($serie['image_file']) ?>"
-                        alt="<?= html_escape($serie['image_alt']) ?>">
-                    <p class="alt"><strong>Texto alternativo:</strong> <?= html_escape($serie['image_alt']) ?></p>
                 <?php } ?>
             </section>
 

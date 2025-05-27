@@ -72,19 +72,20 @@ include '../includes/admin-header.php';
 
         <div class="admin-article">
             <section class="image">
-                <?php if (!$saved_image) { ?>
+                <?php if ($saved_image) { ?>
+                    <label>Logo actual:</label>
+                    <img src="../uploads/<?= html_escape($plataforma['picture']) ?>"
+                        alt="Logo de <?= html_escape($plataforma['nombre']) ?>">
+
+                    <div class="form-group">
+                        <label for="image">Cambiar logo:</label>
+                        <input type="file" name="image" class="form-control-file" id="image"><br>
+                    </div>
+                <?php } else { ?>
                     <label for="image">Subir Logo:</label>
                     <div class="form-group image-placeholder">
                         <input type="file" name="image" class="form-control-file" id="image"><br>
                     </div>
-                    <div class="form-group">
-                        <label for="image_alt">Texto alternativo: </label>
-                        <input type="text" name="image_alt" id="image_alt" value="" class="form-control">
-                    </div>
-                <?php } else { ?>
-                    <label>Logo:</label>
-                    <img src="../uploads/<?= html_escape($plataforma['picture']) ?>"
-                        alt="Logo de <?= html_escape($plataforma['nombre']) ?>">
                 <?php } ?>
             </section>
 

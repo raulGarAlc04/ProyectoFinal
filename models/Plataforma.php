@@ -158,65 +158,53 @@ class Plataforma
 
             if ($this->id_plataforma) {
                 // Actualizar plataforma existente
+                $sql = "UPDATE plataforma
+                    SET nombre = :nombre, 
+                        precio_mensual = :precio_mensual, 
+                        pais_origen = :pais_origen,
+                        anio_lanzamiento = :anio_lanzamiento, 
+                        usuarios_activos = :usuarios_activos";
+
+                $params = [
+                    'nombre' => $this->nombre,
+                    'precio_mensual' => $this->precio_mensual,
+                    'pais_origen' => $this->pais_origen,
+                    'anio_lanzamiento' => $this->anio_lanzamiento,
+                    'usuarios_activos' => $this->usuarios_activos,
+                    'id_plataforma' => $this->id_plataforma
+                ];
+
+                // Si hay una imagen, incluirla en la actualización
                 if ($this->picture) {
-                    $sql = "UPDATE plataforma
-                SET nombre = :nombre, 
-                precio_mensual = :precio_mensual, 
-                pais_origen = :pais_origen,
-                anio_lanzamiento = :anio_lanzamiento, 
-                usuarios_activos = :usuarios_activos,
-                picture = :picture
-                WHERE id_plataforma = :id_plataforma";
-                    $params = [
-                        'nombre' => $this->nombre,
-                        'precio_mensual' => $this->precio_mensual,
-                        'pais_origen' => $this->pais_origen,
-                        'anio_lanzamiento' => $this->anio_lanzamiento,
-                        'usuarios_activos' => $this->usuarios_activos,
-                        'picture' => $this->picture,
-                        'id_plataforma' => $this->id_plataforma
-                    ];
-                } else {
-                    $sql = "UPDATE plataforma
-                SET nombre = :nombre, 
-                precio_mensual = :precio_mensual, 
-                pais_origen = :pais_origen,
-                anio_lanzamiento = :anio_lanzamiento, 
-                usuarios_activos = :usuarios_activos
-                WHERE id_plataforma = :id_plataforma";
-                    $params = [
-                        'nombre' => $this->nombre,
-                        'precio_mensual' => $this->precio_mensual,
-                        'pais_origen' => $this->pais_origen,
-                        'anio_lanzamiento' => $this->anio_lanzamiento,
-                        'usuarios_activos' => $this->usuarios_activos,
-                        'id_plataforma' => $this->id_plataforma
-                    ];
+                    $sql .= ", picture = :picture";
+                    $params['picture'] = $this->picture;
                 }
+
+                $sql .= " WHERE id_plataforma = :id_plataforma";
             } else {
                 // Insertar nueva plataforma
+                $sql = "INSERT INTO plataforma (nombre, precio_mensual, pais_origen, anio_lanzamiento, usuarios_activos";
+                $params = [
+                    'nombre' => $this->nombre,
+                    'precio_mensual' => $this->precio_mensual,
+                    'pais_origen' => $this->pais_origen,
+                    'anio_lanzamiento' => $this->anio_lanzamiento,
+                    'usuarios_activos' => $this->usuarios_activos
+                ];
+
+                // Si hay una imagen, incluirla en la inserción
                 if ($this->picture) {
-                    $sql = "INSERT INTO plataforma (nombre, precio_mensual, pais_origen, anio_lanzamiento, usuarios_activos, picture)
-                VALUES (:nombre, :precio_mensual, :pais_origen, :anio_lanzamiento, :usuarios_activos, :picture)";
-                    $params = [
-                        'nombre' => $this->nombre,
-                        'precio_mensual' => $this->precio_mensual,
-                        'pais_origen' => $this->pais_origen,
-                        'anio_lanzamiento' => $this->anio_lanzamiento,
-                        'usuarios_activos' => $this->usuarios_activos,
-                        'picture' => $this->picture
-                    ];
-                } else {
-                    $sql = "INSERT INTO plataforma (nombre, precio_mensual, pais_origen, anio_lanzamiento, usuarios_activos)
-                VALUES (:nombre, :precio_mensual, :pais_origen, :anio_lanzamiento, :usuarios_activos)";
-                    $params = [
-                        'nombre' => $this->nombre,
-                        'precio_mensual' => $this->precio_mensual,
-                        'pais_origen' => $this->pais_origen,
-                        'anio_lanzamiento' => $this->anio_lanzamiento,
-                        'usuarios_activos' => $this->usuarios_activos
-                    ];
+                    $sql .= ", picture";
+                    $params['picture'] = $this->picture;
                 }
+
+                $sql .= ") VALUES (:nombre, :precio_mensual, :pais_origen, :anio_lanzamiento, :usuarios_activos";
+
+                if ($this->picture) {
+                    $sql .= ", :picture";
+                }
+
+                $sql .= ")";
             }
 
             pdo($this->pdo, $sql, $params);
@@ -425,7 +413,7 @@ class Plataforma
         // Asegurar que el nombre sea único
         $contador = 1;
         $filename_original = $filename;
-        while (file_exists($this->uploads_dir . $filename)) {
+        while (file_exists($this->uploads_dir . $filename) && $filename != $this->picture) {
             $filename = 'foto_' . $nombre_limpio . '_' . $contador . '.' . $extension;
             $contador++;
         }
@@ -437,11 +425,16 @@ class Plataforma
             $imagick->thumbnailImage(1200, 900, true);
             $imagick->writeImage($destination);
 
+            // Si hay una imagen anterior y es diferente a la nueva, eliminarla
+            if ($this->picture && $this->picture !== $filename && file_exists($this->uploads_dir . $this->picture)) {
+                unlink($this->uploads_dir . $this->picture);
+            }
+
             $this->picture = $filename;
 
             return true;
         } catch (Exception $e) {
-            if (file_exists($destination)) {
+            if (file_exists($destination) && $destination !== $this->uploads_dir . $this->picture) {
                 unlink($destination);
             }
             return false;

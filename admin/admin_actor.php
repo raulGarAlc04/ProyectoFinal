@@ -85,14 +85,20 @@ include '../includes/admin-header.php';
 
         <div class="admin-article">
             <section class="image">
-                <?php if (!$saved_picture) { ?>
+                <?php if ($saved_picture) { ?>
+                    <label>Foto actual:</label>
+                    <img src="../uploads/<?= html_escape($actor['picture']) ?>"
+                        alt="<?= html_escape($actor['nombre'] . ' ' . $actor['apellido']) ?>">
+
+                    <div class="form-group">
+                        <label for="picture">Cambiar foto:</label>
+                        <input type="file" name="picture" class="form-control-file" id="picture"><br>
+                    </div>
+                <?php } else { ?>
                     <label for="picture">Subir Foto:</label>
                     <div class="form-group image-placeholder">
                         <input type="file" name="picture" class="form-control-file" id="picture"><br>
                     </div>
-                <?php } else { ?>
-                    <label>Foto:</label>
-                    <img src="../uploads/<?= html_escape($actor['picture']) ?>" alt="<?= html_escape($actor['nombre'] . ' ' . $actor['apellido']) ?>">
                 <?php } ?>
             </section>
 

@@ -381,7 +381,7 @@ class Actor
         // Asegurar que el nombre sea único
         $contador = 1;
         $filename_original = $filename;
-        while (file_exists($this->uploads_dir . $filename)) {
+        while (file_exists($this->uploads_dir . $filename) && $filename != $this->picture) {
             $filename = 'foto_' . $nombre_limpio . '_' . $contador . '.' . $extension;
             $contador++;
         }
@@ -393,11 +393,16 @@ class Actor
             $imagick->thumbnailImage(300, 300, true); // Tamaño cuadrado para foto de actor
             $imagick->writeImage($destination);
 
+            // Si hay una imagen anterior y es diferente a la nueva, eliminarla
+            if ($this->picture && $this->picture !== $filename && file_exists($this->uploads_dir . $this->picture)) {
+                unlink($this->uploads_dir . $this->picture);
+            }
+
             $this->picture = $filename;
 
             return true;
         } catch (Exception $e) {
-            if (file_exists($destination)) {
+            if (file_exists($destination) && $destination !== $this->uploads_dir . $this->picture) {
                 unlink($destination);
             }
             return false;

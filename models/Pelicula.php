@@ -131,22 +131,33 @@ class Pelicula
             $this->pdo->beginTransaction();
 
             // Manejar imagen si es necesario
-            if ($this->image_file && $this->image_alt && !$this->id_image) {
-                $sql = "INSERT INTO image (archivo, alt) VALUES (:archivo, :alt)";
-                pdo($this->pdo, $sql, [
-                    'archivo' => $this->image_file,
-                    'alt' => $this->image_alt
-                ]);
-                $this->id_image = (int)$this->pdo->lastInsertId();
+            if ($this->image_file && $this->image_alt) {
+                if (!$this->id_image) {
+                    // Insertar nueva imagen
+                    $sql = "INSERT INTO image (archivo, alt) VALUES (:archivo, :alt)";
+                    pdo($this->pdo, $sql, [
+                        'archivo' => $this->image_file,
+                        'alt' => $this->image_alt
+                    ]);
+                    $this->id_image = (int)$this->pdo->lastInsertId();
+                } else {
+                    // Actualizar imagen existente
+                    $sql = "UPDATE image SET archivo = :archivo, alt = :alt WHERE id_image = :id_image";
+                    pdo($this->pdo, $sql, [
+                        'archivo' => $this->image_file,
+                        'alt' => $this->image_alt,
+                        'id_image' => $this->id_image
+                    ]);
+                }
             }
 
             // Insertar o actualizar la película
             if ($this->id_pelicula) {
                 // Actualizar película existente
                 $sql = "UPDATE pelicula
-            SET nombre = :nombre, anio_estreno = :anio_estreno, director = :director,
-            id_plataforma = :id_plataforma, id_image = :id_image
-            WHERE id_pelicula = :id_pelicula";
+                SET nombre = :nombre, anio_estreno = :anio_estreno, director = :director,
+                id_plataforma = :id_plataforma, id_image = :id_image
+                WHERE id_pelicula = :id_pelicula";
                 $params = [
                     'nombre' => $this->nombre,
                     'anio_estreno' => $this->anio_estreno,
@@ -158,7 +169,7 @@ class Pelicula
             } else {
                 // Insertar nueva película
                 $sql = "INSERT INTO pelicula (nombre, anio_estreno, director, id_plataforma, id_image)
-            VALUES (:nombre, :anio_estreno, :director, :id_plataforma, :id_image)";
+                VALUES (:nombre, :anio_estreno, :director, :id_plataforma, :id_image)";
                 $params = [
                     'nombre' => $this->nombre,
                     'anio_estreno' => $this->anio_estreno,
@@ -379,7 +390,7 @@ class Pelicula
         // Asegurar que el nombre sea único
         $contador = 1;
         $filename_original = $filename;
-        while (file_exists($this->uploads_dir . $filename)) {
+        while (file_exists($this->uploads_dir . $filename) && $filename != $this->image_file) {
             $filename = 'foto_' . $nombre_limpio . '_' . $contador . '.' . $extension;
             $contador++;
         }
@@ -391,12 +402,17 @@ class Pelicula
             $imagick->thumbnailImage(400, 600, true);
             $imagick->writeImage($destination);
 
+            // Si hay una imagen anterior y es diferente a la nueva, eliminarla
+            if ($this->image_file && $this->image_file !== $filename && file_exists($this->uploads_dir . $this->image_file)) {
+                unlink($this->uploads_dir . $this->image_file);
+            }
+
             $this->image_file = $filename;
             $this->image_alt = $alt;
 
             return true;
         } catch (Exception $e) {
-            if (file_exists($destination)) {
+            if (file_exists($destination) && $destination !== $this->uploads_dir . $this->image_file) {
                 unlink($destination);
             }
             return false;
