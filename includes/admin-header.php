@@ -8,7 +8,7 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Content World Admin</title>
-  <link rel="stylesheet" href="../css/styles_admin.css">
+  <link rel="stylesheet" href="../css/admin_styles.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
   <link rel="shortcut icon" type="image/png" href="../img/favicon.ico">

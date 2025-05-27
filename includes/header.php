@@ -9,7 +9,7 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= html_escape($title) ?></title>
   <meta name="description" content="<?= html_escape($description) ?>">
-  <link rel="stylesheet" type="text/css" href="../css/styles_user_copy.css">
+  <link rel="stylesheet" type="text/css" href="../css/user_styles.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
   <link rel="shortcut icon" type="image/png" href="img/favicon.ico">

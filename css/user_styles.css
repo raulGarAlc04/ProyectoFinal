@@ -1,0 +1,1053 @@
+/* styles_user_copy.css */
+
+/* Estilos Base */
+:root {
+  --primary: #8a2be2;       /* Púrpura vibrante */
+  --primary-light: #b15eff;
+  --secondary: #2d3748;     /* Gris pizarra oscuro */
+  --dark: #1a202c;          /* Fondo muy oscuro */
+  --darker: #121620;        /* Fondo aún más oscuro */
+  --light: #e2e8f0;         /* Texto claro */
+  --accent: #00b4d8;        /* Acento cian */
+  --success: #48bb78;       /* Verde */
+  --danger: #f56565;        /* Rojo */
+  --card-bg: #2d3748;       /* Fondo de tarjetas */
+  --card-hover: #3a4a63;    /* Estado hover de tarjetas */
+  --header-bg: #121620;     /* Fondo del encabezado */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--dark);
+  color: var(--light);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tipografía */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* Diseño de Layout */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.2rem;
+  margin: 2rem 0;
+}
+
+/* Encabezado */
+header {
+  background-color: var(--header-bg);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 0;
+  border-bottom: 2px solid var(--primary);
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 50px;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+/* Navegación */
+nav {
+  display: flex;
+  align-items: center;
+}
+
+#menu {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: var(--light);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: rgba(138, 43, 226, 0.2);
+  color: var(--primary-light);
+}
+
+nav a.on {
+  background-color: var(--primary);
+  color: white;
+}
+
+#toggle-navigation {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--light);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 1em;
+  background-color: var(--dark);
+  color: white;
+  opacity: 0;
+}
+
+.skip-link:focus {
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
+}
+
+/* Botón de Perfil */
+.profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1rem;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+  transition: all 0.3s ease;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px var(--primary);
+}
+
+/* Encabezados de Sección */
+.header {
+  text-align: center;
+  padding: 2rem 0 1rem;
+  background: linear-gradient(180deg, var(--darker), var(--dark));
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+.header p {
+  color: #a0aec0;
+  font-size: 1.1rem;
+}
+
+/* Tarjetas de Películas y Series - 5 por fila */
+.peliculas-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.2rem;
+  margin: 2rem 0;
+}
+
+.pelicula-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.pelicula-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  background-color: var(--card-hover);
+}
+
+.pelicula-card img {
+  width: 100%;
+  height: 280px; /* Imágenes más alargadas */
+  object-fit: cover;
+}
+
+.pelicula-info {
+  padding: 0.8rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pelicula-info h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.year {
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Plataformas Favoritas - Tarjetas más pequeñas */
+.plataformas-favoritas {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.plataforma-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.plataforma-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+  padding: 0.75rem;
+  height: 100%;
+}
+
+.plataforma-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  background-color: var(--card-hover);
+}
+
+.plataforma-img {
+  width: 100%;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
+.plataforma-card h5 {
+  color: var(--light);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Pie de Página */
+footer {
+  background-color: var(--header-bg);
+  padding: 1.5rem 0;
+  margin-top: auto;
+  text-align: center;
+  border-top: 2px solid var(--primary);
+}
+
+/* Diseño Responsivo */
+@media (max-width: 1200px) {
+  .peliculas-grid, .plataformas-grid, .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .plataformas-favoritas {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .peliculas-grid, .plataformas-grid, .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .plataformas-favoritas {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .peliculas-grid, .plataformas-grid, .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .plataformas-favoritas {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  #menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: var(--header-bg);
+    padding: 1rem;
+    gap: 0.5rem;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  #menu.active {
+    display: flex;
+  }
+  
+  #toggle-navigation {
+    display: block;
+  }
+  
+  .pelicula-card img, .grid .summary img {
+    height: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .peliculas-grid, .plataformas-grid, .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .plataformas-favoritas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .pelicula-card img, .grid .summary img {
+    height: 250px;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.peliculas-grid, .plataformas-favoritas, .plataformas-grid, .grid {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Barra de Desplazamiento Personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-light);
+}
+
+/* Estilos de Botones */
+button, .btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  display: inline-block;
+  text-align: center;
+}
+
+button:hover, .btn:hover {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-light);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+}
+
+.btn-secondary:hover {
+  background-color: #3a4a63;
+}
+
+.btn-danger {
+  background-color: var(--danger);
+}
+
+.btn-danger:hover {
+  background-color: #e53e3e;
+}
+
+.btn-success {
+  background-color: var(--success);
+}
+
+.btn-success:hover {
+  background-color: #38a169;
+}
+
+/* Elementos de Formulario */
+input, select, textarea {
+  background-color: var(--secondary);
+  border: 1px solid #4a5568;
+  color: var(--light);
+  padding: 0.5rem;
+  border-radius: 4px;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+}
+
+/* Elementos Ocultos */
+.hidden {
+  position: absolute;
+  left: -9999px;
+}
+
+/* ESTILOS PARA VER_PELICULAS.PHP Y VER_SERIES.PHP */
+
+/* Encabezado de la página de películas/series */
+.peliculas-header, .plataformas-header {
+  text-align: center;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+  background: linear-gradient(180deg, var(--darker), var(--dark));
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.peliculas-header h1, .plataformas-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.peliculas-header p, .plataformas-header p {
+  color: #a0aec0;
+  margin-bottom: 1.5rem;
+}
+
+/* Formulario de filtros */
+.filtros-peliculas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: var(--secondary);
+  border-radius: 8px;
+}
+
+.filtros-peliculas input[type="text"] {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 0;
+}
+
+.filtros-peliculas label {
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+
+.filtros-peliculas select {
+  width: auto;
+  min-width: 180px;
+  margin-bottom: 0;
+}
+
+.filtros-peliculas button {
+  background-color: var(--primary);
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.filtros-peliculas button:hover {
+  background-color: var(--primary-light);
+}
+
+/* ESTILOS PARA VER_PELICULA.PHP Y VER_SERIE.PHP */
+
+/* Layout de artículo */
+.article {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  margin: 2rem auto;
+  background-color: var(--secondary);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.article .image {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.article .image img {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.article .text {
+  padding: 2rem;
+}
+
+.article h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.article .content {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+/* Valoraciones y comentarios */
+.rating-summary {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.average-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.rating-count {
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+.no-ratings {
+  color: #a0aec0;
+  font-style: italic;
+}
+
+/* Sección de favoritos */
+.favorite-section {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.favorite-status {
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.favorite-status i {
+  color: #f56565;
+  margin-right: 0.5rem;
+}
+
+.current-rating {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+.rating-form {
+  margin-top: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group select {
+  width: 100px;
+}
+
+.form-group textarea {
+  width: 100%;
+  height: 100px;
+  resize: vertical;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Botones estilizados */
+.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn i {
+  font-size: 0.9rem;
+}
+
+/* Créditos y actores */
+.credit {
+  margin: 1.5rem 0;
+  font-size: 1.1rem;
+}
+
+.actor-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.actor-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  text-align: center;
+  color: var(--light);
+  transition: all 0.3s ease;
+}
+
+.actor-card:hover {
+  transform: translateY(-5px);
+}
+
+.actor-thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.actor-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Comentarios recientes */
+.recent-comments {
+  margin-top: 2rem;
+}
+
+.recent-comments h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: var(--light);
+}
+
+.comment {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #a0aec0;
+}
+
+.comment-rating {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.comment-body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* NUEVOS ESTILOS PARA VER_PLATAFORMAS.PHP */
+
+/* Grid de plataformas */
+.plataformas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.plataformas-grid .plataforma-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.plataformas-grid .plataforma-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  background-color: var(--card-hover);
+}
+
+.plataformas-grid .plataforma-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.plataforma-info {
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.plataforma-info h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.plataforma-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plataforma-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.plataforma-stat-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+/* NUEVOS ESTILOS PARA VER_PLATAFORMA.PHP */
+
+/* Cabecera de plataforma */
+.header img {
+  max-width: 200px;
+  max-height: 100px;
+  margin: 0 auto 1rem;
+  display: block;
+  object-fit: contain;
+}
+
+.favorite-button {
+  margin: 1.5rem 0;
+}
+
+.btn-add-fav, .btn-remove-fav {
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+
+.btn-add-fav {
+  background-color: var(--success);
+  color: white;
+}
+
+.btn-add-fav:hover {
+  background-color: #38a169;
+}
+
+.btn-remove-fav {
+  background-color: var(--danger);
+  color: white;
+}
+
+.btn-remove-fav:hover {
+  background-color: #e53e3e;
+}
+
+/* Estilo para el grid de películas/series en plataforma */
+.grid .summary {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid .summary:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  background-color: var(--card-hover);
+}
+
+.grid .summary a {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: var(--light);
+  text-decoration: none;
+}
+
+.grid .summary img {
+  width: 100%;
+  height: 280px; /* Misma altura que las cards de inicio */
+  object-fit: cover;
+}
+
+.grid .summary h2 {
+  font-size: 1.1rem;
+  margin: 0.8rem 0.8rem 0.4rem;
+}
+
+.grid .summary p {
+  margin: 0 0.8rem 0.8rem;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+/* NUEVOS ESTILOS PARA VER_ACTOR.PHP */
+
+/* Perfil del actor */
+.filmography {
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.filmography h1 {
+  margin-bottom: 1.5rem;
+}
+
+.filmography .profile {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px; /* Cambiado a cuadrado con bordes redondeados */
+  object-fit: cover;
+  border: 3px solid var(--primary);
+  margin: 1.5rem auto;
+  display: block;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.filmography .member {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.filmography .member b {
+  color: var(--accent);
+}
+
+/* NUEVOS ESTILOS PARA PERFIL.PHP */
+
+/* Sección de perfil */
+.profile-section {
+  background-color: var(--secondary);
+  border-radius: 10px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-image {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.profile-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-info {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.profile-info p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.alert {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.alert-danger {
+  background-color: rgba(245, 101, 101, 0.2);
+  color: #feb2b2;
+  border: 1px solid rgba(245, 101, 101, 0.5);
+}
+
+/* Diseño responsivo para páginas de detalle */
+@media (max-width: 992px) {
+  .article {
+    grid-template-columns: 1fr;
+  }
+  
+  .article .image {
+    padding: 1.5rem 1.5rem 0 1.5rem;
+  }
+  
+  .article .image img {
+    max-height: 400px;
+  }
+  
+  .actor-cards {
+    justify-content: center;
+  }
+  
+  .profile-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .filtros-peliculas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filtros-peliculas input,
+  .filtros-peliculas select,
+  .filtros-peliculas button {
+    width: 100%;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .article .image img {
+    max-height: 350px;
+  }
+  
+  .plataformas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .plataformas-grid {
+    grid-template-columns: 1fr;
+  }
+}

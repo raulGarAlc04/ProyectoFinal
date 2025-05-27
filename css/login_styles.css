@@ -1,0 +1,272 @@
+/* styles_login.css - Estilos para login, registro y logout */
+
+/* Estilos Base */
+:root {
+  --primary: #8a2be2;       /* Púrpura vibrante */
+  --primary-light: #b15eff;
+  --secondary: #2d3748;     /* Gris pizarra oscuro */
+  --dark: #1a202c;          /* Fondo muy oscuro */
+  --darker: #121620;        /* Fondo aún más oscuro */
+  --light: #e2e8f0;         /* Texto claro */
+  --accent: #00b4d8;        /* Acento cian */
+  --success: #48bb78;       /* Verde */
+  --danger: #f56565;        /* Rojo */
+  --card-bg: #2d3748;       /* Fondo de tarjetas */
+  --card-hover: #3a4a63;    /* Estado hover de tarjetas */
+  --header-bg: #121620;     /* Fondo del encabezado */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--dark);
+  color: var(--light);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+}
+
+/* Contenedores de Login y Registro */
+.login-container, .register-container {
+  background-color: var(--secondary);
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  padding: 2.5rem;
+  width: 90%;
+  max-width: 450px;
+  animation: fadeIn 0.5s ease-in-out;
+  border: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Encabezados */
+h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Formularios */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--light);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #4a5568;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--light);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+}
+
+small {
+  display: block;
+  margin-top: 0.5rem;
+  color: #a0aec0;
+  font-size: 0.8rem;
+}
+
+/* Botones */
+button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Enlaces */
+.links {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Mensajes de error */
+.error {
+  background-color: rgba(245, 101, 101, 0.2);
+  color: #feb2b2;
+  padding: 0.8rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(245, 101, 101, 0.5);
+  text-align: center;
+}
+
+/* Estilos específicos para el formulario de registro */
+.register-container {
+  max-width: 500px;
+}
+
+/* Estilos para el input de archivo (foto de perfil) */
+input[type="file"] {
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 1px dashed #4a5568;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background-color: var(--secondary);
+  color: var(--light);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: all 0.3s ease;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+  .login-container, .register-container {
+    width: 95%;
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container, .register-container {
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: 0;
+    box-shadow: none;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  body {
+    align-items: flex-start;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+}
+
+/* Animación para los botones */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(138, 43, 226, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(138, 43, 226, 0); }
+}
+
+button:focus {
+  animation: pulse 1.5s infinite;
+}
+
+/* Barra de desplazamiento personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-light);
+}
+
+/* Estilos para mensajes de éxito */
+.success {
+  background-color: rgba(72, 187, 120, 0.2);
+  color: #9ae6b4;
+  padding: 0.8rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(72, 187, 120, 0.5);
+  text-align: center;
+}
+
+/* Logo (si se añade en el futuro) */
+.logo {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo img {
+  max-width: 150px;
+  height: auto;
+}

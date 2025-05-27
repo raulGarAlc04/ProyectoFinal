@@ -35,7 +35,7 @@ include '../includes/admin-header.php';
     <h1>Eliminar Pelicula</h1>
     <p>Haga click para confirmar el borrado de la pelicula: <em><?= html_escape($pelicula['nombre']) ?></em></p>
     <input type="submit" name="delete" value="Confirmar" class="btn btn-primary">
-    <a href="peliculas.php" class="btn btn-danger">Cancelar</a>
+    <a href="listar_peliculas.php" class="btn btn-danger">Cancelar</a>
     </form>
 </main>
 

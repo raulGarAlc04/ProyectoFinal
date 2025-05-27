@@ -1,0 +1,1398 @@
+/* styles_admin.css - Estilos para el panel de administración */
+
+/* Estilos Base */
+:root {
+  --primary: #8a2be2;       /* Púrpura vibrante */
+  --primary-light: #b15eff;
+  --secondary: #2d3748;     /* Gris pizarra oscuro */
+  --dark: #1a202c;          /* Fondo muy oscuro */
+  --darker: #121620;        /* Fondo aún más oscuro */
+  --light: #e2e8f0;         /* Texto claro */
+  --accent: #00b4d8;        /* Acento cian */
+  --success: #48bb78;       /* Verde */
+  --danger: #f56565;        /* Rojo */
+  --warning: #ed8936;       /* Naranja */
+  --card-bg: #2d3748;       /* Fondo de tarjetas */
+  --card-hover: #3a4a63;    /* Estado hover de tarjetas */
+  --header-bg: #121620;     /* Fondo del encabezado */
+  --table-header: #1e2a3a;  /* Fondo de cabecera de tabla */
+  --table-row-odd: #2d3748; /* Fondo de filas impares */
+  --table-row-even: #252e3c; /* Fondo de filas pares */
+  --table-border: #4a5568;  /* Borde de tabla */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--dark);
+  color: var(--light);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tipografía */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+h1 {
+  font-size: 2.2rem;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* Diseño de Layout */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Encabezado de Administración */
+.header-admin {
+  background-color: var(--header-bg);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 0;
+  border-bottom: 2px solid var(--primary);
+}
+
+.header-admin .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 50px;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+/* Navegación */
+nav {
+  display: flex;
+  align-items: center;
+}
+
+#menu {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: var(--light);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: rgba(138, 43, 226, 0.2);
+  color: var(--primary-light);
+}
+
+nav a.on {
+  background-color: var(--primary);
+  color: white;
+}
+
+#toggle-navigation {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--light);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 1em;
+  background-color: var(--dark);
+  color: white;
+  opacity: 0;
+}
+
+.skip-link:focus {
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
+}
+
+/* Botón de Perfil */
+.profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1rem;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+  transition: all 0.3s ease;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px var(--primary);
+}
+
+/* Encabezados de Sección */
+.header {
+  text-align: center;
+  padding: 2rem 0 1rem;
+  background: linear-gradient(180deg, var(--darker), var(--dark));
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header p {
+  color: #a0aec0;
+  font-size: 1.1rem;
+}
+
+/* Tablas de Administración */
+table.admin {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background-color: var(--secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+table.admin th, 
+table.admin td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--table-border);
+}
+
+table.admin th {
+  background-color: var(--table-header);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+table.admin tr:nth-child(odd) {
+  background-color: var(--table-row-odd);
+}
+
+table.admin tr:nth-child(even) {
+  background-color: var(--table-row-even);
+}
+
+table.admin tr:hover {
+  background-color: var(--card-hover);
+}
+
+table.admin .create,
+table.admin .view {
+  width: 120px;
+  text-align: center;
+}
+
+/* Botones */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-light);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--light);
+}
+
+.btn-secondary:hover {
+  background-color: #3a4a63;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #e53e3e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-success {
+  background-color: var(--success);
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #38a169;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-warning {
+  background-color: var(--warning);
+  color: white;
+}
+
+.btn-warning:hover {
+  background-color: #dd6b20;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Formularios de Administración */
+.admin-form {
+  background-color: var(--secondary);
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 4px;
+  border: 1px solid #4a5568;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--light);
+  font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+}
+
+.form-group textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23e2e8f0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1em;
+}
+
+.form-group input[type="file"] {
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 1px dashed #4a5568;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button {
+  background-color: var(--secondary);
+  color: var(--light);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Alertas y Mensajes */
+.alert {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: rgba(72, 187, 120, 0.2);
+  color: #9ae6b4;
+  border: 1px solid rgba(72, 187, 120, 0.5);
+}
+
+.alert-danger {
+  background-color: rgba(245, 101, 101, 0.2);
+  color: #feb2b2;
+  border: 1px solid rgba(245, 101, 101, 0.5);
+}
+
+.alert-warning {
+  background-color: rgba(237, 137, 54, 0.2);
+  color: #fbd38d;
+  border: 1px solid rgba(237, 137, 54, 0.5);
+}
+
+.alert-info {
+  background-color: rgba(0, 180, 216, 0.2);
+  color: #81e6d9;
+  border: 1px solid rgba(0, 180, 216, 0.5);
+}
+
+/* Pie de Página */
+footer {
+  background-color: var(--header-bg);
+  padding: 1.5rem 0;
+  margin-top: auto;
+  text-align: center;
+  border-top: 2px solid var(--primary);
+}
+
+/* Tarjetas de Estadísticas */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-top: 3px solid var(--primary);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card .stat-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  margin: 0.5rem 0;
+}
+
+.stat-card .stat-label {
+  color: #a0aec0;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-card .stat-icon {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+/* Paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+.pagination a,
+.pagination span {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: var(--secondary);
+  color: var(--light);
+  transition: all 0.3s ease;
+}
+
+.pagination a:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.pagination .current {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* Diseño Responsivo */
+@media (max-width: 992px) {
+  table.admin {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  #menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: var(--header-bg);
+    padding: 1rem;
+    gap: 0.5rem;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  #menu.active {
+    display: flex;
+  }
+  
+  #toggle-navigation {
+    display: block;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.header, .admin-form, table.admin, .stats-grid {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Barra de Desplazamiento Personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-light);
+}
+
+/* Estilos para acciones en tablas */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+}
+
+.action-btn-edit {
+  background-color: var(--primary);
+  color: white;
+}
+
+.action-btn-delete {
+  background-color: var(--danger);
+  color: white;
+}
+
+.action-btn-view {
+  background-color: var(--accent);
+  color: white;
+}
+
+/* Estilos para modal de confirmación */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background-color: var(--secondary);
+  border-radius: 8px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.active .modal {
+  transform: translateY(0);
+}
+
+.modal-header {
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h3 {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.modal-body {
+  margin-bottom: 1.5rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* Estilos adicionales para administración de películas */
+
+/* Formulario de edición de películas */
+.admin-article {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  background-color: var(--secondary);
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 992px) {
+  .admin-article {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-article .image {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-article .image img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid var(--primary);
+}
+
+.admin-article .image .alt {
+  font-size: 0.9rem;
+  color: #a0aec0;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.admin-article .image-placeholder {
+  width: 100%;
+  height: 200px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px dashed #4a5568;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a0aec0;
+}
+
+.admin-article .text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Tabla de listado de películas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background-color: var(--secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+table th, 
+table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--table-border);
+}
+
+table th {
+  background-color: var(--table-header);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+table tr:nth-child(odd) {
+  background-color: var(--table-row-odd);
+}
+
+table tr:nth-child(even) {
+  background-color: var(--table-row-even);
+}
+
+table tr:hover {
+  background-color: var(--card-hover);
+}
+
+table td img {
+  width: 80px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--primary);
+  transition: transform 0.3s ease;
+}
+
+table td img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+table .edit,
+table .del {
+  width: 100px;
+  text-align: center;
+}
+
+/* Formulario de eliminación */
+form.narrow {
+  max-width: 600px;
+  margin: 2rem auto;
+  background-color: var(--secondary);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  border-left: 4px solid var(--danger);
+}
+
+form.narrow h1 {
+  color: var(--danger);
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, var(--danger), #f56565);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+form.narrow p {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+form.narrow em {
+  font-style: italic;
+  color: white;
+  font-weight: 500;
+}
+
+form.narrow .btn {
+  margin: 0 0.5rem;
+  min-width: 120px;
+}
+
+/* Estilos para el selector múltiple de actores */
+select[multiple] {
+  height: auto;
+  min-height: 150px;
+}
+
+select[multiple] option {
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+select[multiple] option:checked {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* Animación para alertas */
+.alert {
+  animation: slideDown 0.5s ease-in-out;
+}
+
+@keyframes slideDown {
+  from { 
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para botones de acción en tablas */
+table .btn {
+  width: 100%;
+  display: block;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+/* Efectos de hover para botones */
+.btn-primary:hover {
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-danger:hover {
+  background-color: #e53e3e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para pequeños textos de ayuda */
+small {
+  display: block;
+  margin-top: 0.5rem;
+  color: #a0aec0;
+  font-size: 0.8rem;
+}
+
+/* Mejoras para inputs de formulario */
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #4a5568;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--light);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+}
+
+/* Estilos para la sección de encabezado */
+section.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+section.header h1 {
+  margin-bottom: 1rem;
+}
+
+section.header .btn {
+  margin-top: 1rem;
+}
+
+/* Efecto de transición para todos los elementos interactivos */
+a, button, input, select, .btn {
+  transition: all 0.3s ease;
+}
+
+/* Estilos adicionales para administración de plataformas */
+
+/* Estilos específicos para logos de plataformas */
+.admin-article .image img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid var(--primary);
+}
+
+/* Ajustes para la tabla de plataformas */
+table td img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--primary);
+  transition: transform 0.3s ease;
+}
+
+/* Estilos para los contadores de contenido */
+table td span {
+  display: inline-block;
+  margin: 0 0.25rem;
+  font-weight: 500;
+}
+
+table td span[title] {
+  cursor: help;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
+}
+
+/* Estilos para los iconos de contenido */
+table td span:after {
+  margin-left: 0.25rem;
+  font-size: 1.1rem;
+}
+
+/* Estilos para el formulario de plataformas */
+.form-group input[type="number"] {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #4a5568;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--light);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input[type="number"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+}
+
+/* Estilos para el precio */
+table td:nth-child(3) {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: #48bb78;
+}
+
+/* Estilos para el país */
+table td:nth-child(4) {
+  font-style: italic;
+}
+
+/* Estilos para la alerta de advertencia en eliminación */
+.alert-warning {
+  background-color: rgba(237, 137, 54, 0.2);
+  color: #fbd38d;
+  border: 1px solid rgba(237, 137, 54, 0.5);
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 6px;
+}
+
+.alert-warning strong {
+  color: #ed8936;
+  font-weight: 600;
+}
+
+.alert-warning p {
+  margin-bottom: 0.5rem;
+}
+
+.alert-warning p:last-child {
+  margin-bottom: 0;
+}
+
+/* Mejoras para el formulario de eliminación */
+form.narrow .alert-warning {
+  text-align: left;
+}
+
+/* Estilos para los campos de precio */
+input[type="number"][step="0.01"] {
+  text-align: right;
+}
+
+input[type="number"][step="0.01"]::before {
+  content: "€";
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a0aec0;
+}
+
+/* Estilos para los campos de año */
+input[type="number"][name="anio_lanzamiento"] {
+  width: 120px;
+}
+
+/* Estilos para los campos de usuarios activos */
+input[type="number"][name="usuarios_activos"] {
+  text-align: right;
+}
+
+/* Tooltip personalizado para los contadores de contenido */
+[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--darker);
+  color: var(--light);
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--primary);
+}
+
+[title] {
+  position: relative;
+}
+
+/* Animación para los iconos de contenido */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+table td span:hover:after {
+  animation: pulse 0.5s infinite;
+}
+
+/* Estilos para la columna de contenido */
+table th:nth-child(5),
+table td:nth-child(5) {
+  text-align: center;
+}
+
+/* Mejoras para el diseño responsivo */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  table th:nth-child(4),
+  table td:nth-child(4) {
+    display: none; /* Ocultar columna de país en móviles */
+  }
+  
+  .admin-article {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-article .image {
+    order: -1; /* Mostrar imagen primero en móviles */
+  }
+}
+
+/* Estilos para el placeholder de imagen */
+.image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px dashed #4a5568;
+  border-radius: 8px;
+  color: #a0aec0;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.image-placeholder:before {
+  content: "Seleccione un logo";
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos adicionales para administración de actores y usuarios */
+
+/* Estilos para fotos de actores */
+table td img.actor-photo {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+table td img.actor-photo:hover {
+  transform: scale(1.2);
+  box-shadow: 0 5px 15px rgba(138, 43, 226, 0.5);
+}
+
+/* Estilos para fotos de usuarios */
+table td img.user-photo {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+table td img.user-photo:hover {
+  transform: scale(1.2);
+  box-shadow: 0 5px 15px rgba(0, 180, 216, 0.5);
+}
+
+/* Estilos para tablas con muchas columnas */
+table.wide-table {
+  min-width: 1000px;
+  overflow-x: auto;
+}
+
+/* Estilos para campos de fecha */
+input[type="date"] {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #4a5568;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--light);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input[type="date"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+}
+
+/* Estilos para indicadores de estado */
+.status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.status-active {
+  background-color: var(--success);
+}
+
+.status-inactive {
+  background-color: var(--danger);
+}
+
+/* Estilos para roles de usuario */
+.role-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.role-admin {
+  background-color: var(--primary);
+  color: white;
+}
+
+.role-user {
+  background-color: var(--secondary);
+  color: var(--light);
+}
+
+/* Estilos para checkboxes */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  vertical-align: middle;
+  accent-color: var(--primary);
+}
+
+/* Estilos para formularios de actor */
+.form-group select {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #4a5568;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--light);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23e2e8f0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1em;
+}
+
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+}
+
+/* Estilos para la imagen de actor en el formulario */
+.admin-article .image img.actor-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid var(--primary);
+}
+
+/* Estilos para la imagen de usuario en el formulario */
+.admin-article .image img.user-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  margin: 0 auto;
+  display: block;
+}
+
+/* Estilos para acciones de formulario */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Estilos para tablas de usuarios */
+table.admin td:nth-child(5) {
+  white-space: nowrap;
+}
+
+/* Estilos para estados de actividad */
+.estado-actividad {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.estado-activo {
+  background-color: var(--success);
+  color: white;
+}
+
+.estado-retirado {
+  background-color: var(--danger);
+  color: white;
+}
+
+.estado-pausa {
+  background-color: var(--warning);
+  color: white;
+}
+
+/* Estilos para especialidades */
+.especialidad {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background-color: var(--secondary);
+  color: var(--light);
+}
+
+/* Mejoras para diseño responsivo */
+@media (max-width: 992px) {
+  table.admin {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+  }
+}
+
+/* Estilos para alertas dentro de form-group */
+.form-group .alert {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Estilos para placeholder de imagen de actor */
+.image-placeholder.actor {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px dashed #4a5568;
+  border-radius: 8px;
+  color: #a0aec0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Estilos para placeholder de imagen de usuario */
+.image-placeholder.user {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px dashed #4a5568;
+  color: #a0aec0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Estilos para nacionalidad */
+.nacionalidad {
+  font-style: italic;
+  color: #a0aec0;
+}
+
+/* Estilos para género */
+.genero {
+  text-transform: capitalize;
+}
+
+/* Animación para cambios de estado */
+@keyframes highlight {
+  0% { background-color: rgba(138, 43, 226, 0.2); }
+  100% { background-color: transparent; }
+}
+
+tr.highlight {
+  animation: highlight 2s ease-in-out;
+}
