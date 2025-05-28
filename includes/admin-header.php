@@ -30,6 +30,7 @@ session_start();
     <li><a href="listar_series.php">Series</a></li>
     <li><a href="listar_plataformas.php">Plataformas</a></li>
     <li><a href="listar_actores.php">Actores</a></li>
+    <li><a href="listar_usuarios.php">Usuarios</a></li>
     <li><a href="../logout.php?user_id=<?php echo $_SESSION['user_id']; ?>">Cerrar Sesión</a></li>
     </ul>
     </nav>

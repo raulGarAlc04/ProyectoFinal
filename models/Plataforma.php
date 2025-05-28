@@ -36,6 +36,10 @@ class Plataforma
 
     public function setNombre(string $nombre): self
     {
+        $nombre = trim($nombre);
+        if (empty($nombre)) {
+            throw new InvalidArgumentException("El nombre de la plataforma es obligatorio", 1);
+        }
         $this->nombre = $nombre;
         return $this;
     }

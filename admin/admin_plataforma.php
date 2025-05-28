@@ -35,22 +35,34 @@ $errores = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Establecer propiedades de la plataforma
-    $plataforma_obj->setNombre($_POST['nombre'])
-        ->setPrecioMensual((float)$_POST['precio_mensual'])
-        ->setPaisOrigen($_POST['pais_origen'])
-        ->setAnioLanzamiento((int)$_POST['anio_lanzamiento'])
-        ->setUsuariosActivos((int)$_POST['usuarios_activos']);
-
-    // Manejar carga de imagen
-    if (isset($_FILES['image']) && $_FILES['image']['tmp_name'] && $_FILES['image']['error'] === 0) {
-        $plataforma_obj->subirImagen($_FILES['image']);
-    }
-
     try {
+        // Establecer propiedades de la plataforma
+        $plataforma_obj->setNombre($_POST['nombre'])
+            ->setPrecioMensual((float)$_POST['precio_mensual'])
+            ->setPaisOrigen($_POST['pais_origen'])
+            ->setAnioLanzamiento((int)$_POST['anio_lanzamiento'])
+            ->setUsuariosActivos((int)$_POST['usuarios_activos']);
+
+        // Manejar carga de imagen
+        if (isset($_FILES['image']) && $_FILES['image']['tmp_name'] && $_FILES['image']['error'] === 0) {
+            $plataforma_obj->subirImagen($_FILES['image']);
+        }
+
         // Guardar la plataforma
         $plataforma_obj->guardar();
         redirect('listar_plataformas.php', ['success' => 'Plataforma guardada']);
+    } catch (InvalidArgumentException $e) {
+        if ($e->getMessage() === "El nombre de la plataforma es obligatorio") {
+            $errores['nombre'] = $e->getMessage();
+        } else {
+            $errores['warning'] = $e->getMessage();
+        }
+        // Actualizar el array de plataforma para mostrar los valores enviados
+        $plataforma['nombre'] = $_POST['nombre'] ?? '';
+        $plataforma['precio_mensual'] = (float)($_POST['precio_mensual'] ?? 0);
+        $plataforma['pais_origen'] = $_POST['pais_origen'] ?? '';
+        $plataforma['anio_lanzamiento'] = (int)($_POST['anio_lanzamiento'] ?? 0);
+        $plataforma['usuarios_activos'] = (int)($_POST['usuarios_activos'] ?? 0);
     } catch (Exception $e) {
         if ($e->getCode() === 1) {
             $errores['warning'] = $e->getMessage();
@@ -65,7 +77,7 @@ include '../includes/admin-header.php';
 
 <form action="admin_plataforma.php?id_plataforma=<?= $id ?>" method="post" enctype="multipart/form-data">
     <main class="container admin" id="content">
-        <h1>Editar Plataforma</h1>
+        <h1><?= $id ? 'Editar' : 'Añadir' ?> Plataforma</h1>
         <?php if ($errores['warning']) { ?>
             <div class="alert alert-danger"><?= $errores['warning'] ?></div>
         <?php } ?>
@@ -93,7 +105,10 @@ include '../includes/admin-header.php';
                 <div class="form-group">
                     <label for="nombre">Nombre de la Plataforma: </label>
                     <input type="text" name="nombre" id="nombre" value="<?= html_escape($plataforma['nombre']) ?>"
-                        class="form-control">
+                        class="form-control <?= $errores['nombre'] ? 'is-invalid' : '' ?>">
+                    <?php if ($errores['nombre']) { ?>
+                        <div class="invalid-feedback"><?= $errores['nombre'] ?></div>
+                    <?php } ?>
                 </div>
                 <div class="form-group">
                     <label for="precio_mensual">Precio Mensual: </label>
@@ -119,7 +134,10 @@ include '../includes/admin-header.php';
                         value="<?= html_escape($plataforma['usuarios_activos']) ?>"
                         class="form-control">
                 </div>
-                <input type="submit" name="actualizar" value="Guardar" class="btn btn-primary">
+                <div class="form-group buttons">
+                    <input type="submit" name="actualizar" value="Guardar" class="btn btn-primary">
+                    <a href="listar_plataformas.php" class="btn btn-secondary">Cancelar</a>
+                </div>
             </section>
         </div>
     </main>

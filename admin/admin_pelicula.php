@@ -43,25 +43,36 @@ $errores = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Establecer propiedades de la película
-    $pelicula_obj->setNombre($_POST['nombre'])
-        ->setAnioEstreno((int)$_POST['anio_estreno'])
-        ->setDirector($_POST['director'])
-        ->setIdPlataforma((int)$_POST['id_plataforma']);
-
-    // Manejar carga de imagen - Verificar si se ha subido una imagen
-    if (isset($_FILES['image']) && $_FILES['image']['tmp_name'] && $_FILES['image']['error'] === 0) {
-        $image_alt = $_POST['image_alt'] ?? '';
-        $pelicula_obj->subirImagen($_FILES['image'], $image_alt);
-    }
-
-    // Obtener actores seleccionados
-    $actores_seleccionados = $_POST['actores'] ?? [];
-
     try {
+        // Establecer propiedades de la película
+        $pelicula_obj->setNombre($_POST['nombre'])
+            ->setAnioEstreno((int)$_POST['anio_estreno'])
+            ->setDirector($_POST['director'])
+            ->setIdPlataforma((int)$_POST['id_plataforma']);
+
+        // Manejar carga de imagen - Verificar si se ha subido una imagen
+        if (isset($_FILES['image']) && $_FILES['image']['tmp_name'] && $_FILES['image']['error'] === 0) {
+            $image_alt = $_POST['image_alt'] ?? '';
+            $pelicula_obj->subirImagen($_FILES['image'], $image_alt);
+        }
+
+        // Obtener actores seleccionados
+        $actores_seleccionados = $_POST['actores'] ?? [];
+
         // Guardar la película
         $pelicula_obj->guardar($actores_seleccionados);
         redirect('listar_peliculas.php', ['success' => 'Película guardada']);
+    } catch (InvalidArgumentException $e) {
+        if ($e->getMessage() === "El nombre de la película es obligatorio") {
+            $errores['nombre'] = $e->getMessage();
+        } else {
+            $errores['warning'] = $e->getMessage();
+        }
+        // Actualizar el array de película para mostrar los valores enviados
+        $pelicula['nombre'] = $_POST['nombre'] ?? '';
+        $pelicula['anio_estreno'] = (int)($_POST['anio_estreno'] ?? 0);
+        $pelicula['director'] = $_POST['director'] ?? '';
+        $pelicula['id_plataforma'] = (int)($_POST['id_plataforma'] ?? 0);
     } catch (Exception $e) {
         if ($e->getCode() === 1) {
             $errores['warning'] = $e->getMessage();
@@ -76,7 +87,7 @@ include '../includes/admin-header.php';
 
 <form action="admin_pelicula.php?id_pelicula=<?= $id ?>" method="post" enctype="multipart/form-data">
     <main class="container admin" id="content">
-        <h1>Editar Película</h1>
+        <h1><?= $id ? 'Editar' : 'Añadir' ?> Película</h1>
         <?php if ($errores['warning']) { ?>
             <div class="alert alert-danger"><?= $errores['warning'] ?></div>
         <?php } ?>
@@ -113,7 +124,10 @@ include '../includes/admin-header.php';
                 <div class="form-group">
                     <label for="nombre">Nombre de la Película: </label>
                     <input type="text" name="nombre" id="nombre" value="<?= html_escape($pelicula['nombre']) ?>"
-                        class="form-control">
+                        class="form-control <?= $errores['nombre'] ? 'is-invalid' : '' ?>">
+                    <?php if ($errores['nombre']) { ?>
+                        <div class="invalid-feedback"><?= $errores['nombre'] ?></div>
+                    <?php } ?>
                 </div>
                 <div class="form-group">
                     <label for="anio_estreno">Año de estreno: </label>
@@ -148,7 +162,10 @@ include '../includes/admin-header.php';
                     </select>
                     <small>Pulsa Ctrl (o Cmd en Mac) para seleccionar varios</small>
                 </div>
-                <input type="submit" name="actualizar" value="Guardar" class="btn btn-primary">
+                <div class="form-group buttons">
+                    <input type="submit" name="actualizar" value="Guardar" class="btn btn-primary">
+                    <a href="listar_peliculas.php" class="btn btn-secondary">Cancelar</a>
+                </div>
             </section>
         </div>
     </main>

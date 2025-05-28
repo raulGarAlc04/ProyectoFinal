@@ -45,25 +45,36 @@ $errores = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Establecer propiedades de la serie
-    $serie_obj->setNombre($_POST['nombre'])
-        ->setAnioEstreno((int)$_POST['anio_estreno'])
-        ->setNTemporadas((int)$_POST['n_temporadas'])
-        ->setIdPlataforma((int)$_POST['id_plataforma']);
-
-    // Manejar carga de imagen
-    if (isset($_FILES['image']) && $_FILES['image']['tmp_name'] && $_FILES['image']['error'] === 0) {
-        $image_alt = $_POST['image_alt'] ?? '';
-        $serie_obj->subirImagen($_FILES['image'], $image_alt);
-    }
-
-    // Obtener actores seleccionados
-    $actores_seleccionados = $_POST['actores'] ?? [];
-
     try {
+        // Establecer propiedades de la serie
+        $serie_obj->setNombre($_POST['nombre'])
+            ->setAnioEstreno((int)$_POST['anio_estreno'])
+            ->setNTemporadas((int)$_POST['n_temporadas'])
+            ->setIdPlataforma((int)$_POST['id_plataforma']);
+
+        // Manejar carga de imagen
+        if (isset($_FILES['image']) && $_FILES['image']['tmp_name'] && $_FILES['image']['error'] === 0) {
+            $image_alt = $_POST['image_alt'] ?? '';
+            $serie_obj->subirImagen($_FILES['image'], $image_alt);
+        }
+
+        // Obtener actores seleccionados
+        $actores_seleccionados = $_POST['actores'] ?? [];
+
         // Guardar la serie
         $serie_obj->guardar($actores_seleccionados);
         redirect('listar_series.php', ['success' => 'Serie guardada']);
+    } catch (InvalidArgumentException $e) {
+        if ($e->getMessage() === "El nombre de la serie es obligatorio") {
+            $errores['nombre'] = $e->getMessage();
+        } else {
+            $errores['warning'] = $e->getMessage();
+        }
+        // Actualizar el array de serie para mostrar los valores enviados
+        $serie['nombre'] = $_POST['nombre'] ?? '';
+        $serie['anio_estreno'] = (int)($_POST['anio_estreno'] ?? 0);
+        $serie['n_temporadas'] = (int)($_POST['n_temporadas'] ?? 0);
+        $serie['id_plataforma'] = (int)($_POST['id_plataforma'] ?? 0);
     } catch (Exception $e) {
         if ($e->getCode() === 1) {
             $errores['warning'] = $e->getMessage();
@@ -78,7 +89,7 @@ include '../includes/admin-header.php';
 
 <form action="admin_serie.php?id_serie=<?= $id ?>" method="post" enctype="multipart/form-data">
     <main class="container admin" id="content">
-        <h1>Editar Serie</h1>
+        <h1><?= $id ? 'Editar' : 'Añadir' ?> Serie</h1>
         <?php if ($errores['warning']) { ?>
             <div class="alert alert-danger"><?= $errores['warning'] ?></div>
         <?php } ?>
@@ -115,7 +126,10 @@ include '../includes/admin-header.php';
                 <div class="form-group">
                     <label for="nombre">Nombre de la Serie: </label>
                     <input type="text" name="nombre" id="nombre" value="<?= html_escape($serie['nombre']) ?>"
-                        class="form-control">
+                        class="form-control <?= $errores['nombre'] ? 'is-invalid' : '' ?>">
+                    <?php if ($errores['nombre']) { ?>
+                        <div class="alert alert-danger"><?= $errores['nombre'] ?></div>
+                    <?php } ?>
                 </div>
                 <div class="form-group">
                     <label for="anio_estreno">Año de estreno: </label>
@@ -149,7 +163,10 @@ include '../includes/admin-header.php';
                     </select>
                     <small>Pulsa Ctrl (o Cmd en Mac) para seleccionar varios</small>
                 </div>
-                <input type="submit" name="actualizar" value="Guardar" class="btn btn-primary">
+                <div class="form-group buttons">
+                    <input type="submit" name="actualizar" value="Guardar" class="btn btn-primary">
+                    <a href="listar_series.php" class="btn btn-secondary">Cancelar</a>
+                </div>
             </section>
         </div>
     </main>

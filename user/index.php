@@ -11,10 +11,10 @@ require '../models/Serie.php';
 require '../models/Plataforma.php';
 
 // Obtener las últimas 6 películas usando la clase Pelicula
-$peliculas = Pelicula::obtenerUltimas($pdo, 6);
+$peliculas = Pelicula::obtenerUltimas($pdo, 5);
 
 // Obtener las últimas 6 series usando la clase Serie
-$series = Serie::obtenerUltimas($pdo, 6);
+$series = Serie::obtenerUltimas($pdo, 5);
 
 // Obtener todas las plataformas para la navegación
 $sql = "SELECT id_plataforma, nombre FROM plataforma";

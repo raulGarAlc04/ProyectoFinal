@@ -33,6 +33,10 @@ class Pelicula
 
     public function setNombre(string $nombre): self
     {
+        $nombre = trim($nombre);
+        if (empty($nombre)) {
+            throw new InvalidArgumentException("El nombre de la película es obligatorio", 1);
+        }
         $this->nombre = $nombre;
         return $this;
     }

@@ -42,28 +42,44 @@ $sql = "SELECT id_plataforma, nombre FROM plataforma;";
 $plataformas = pdo($pdo, $sql)->fetchAll();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Establecer propiedades del actor
-    $actor_obj->setNombre($_POST['nombre'])
-        ->setApellido($_POST['apellido'])
-        ->setFechaNacimiento($_POST['fecha_nacimiento'])
-        ->setNacionalidad($_POST['nacionalidad'])
-        ->setGenero($_POST['genero'])
-        ->setIdPlataforma((int)$_POST['id_plataforma']);
-
-    // Establecer los nuevos campos
-    $actor_obj->setFechaDebut($_POST['fecha_debut'] ?: null)
-        ->setEstadoActividad($_POST['estado_actividad'] ?: null)
-        ->setEspecialidad($_POST['especialidad'] ?: null);
-
-    // Manejar carga de imagen
-    if (isset($_FILES['picture']) && $_FILES['picture']['tmp_name'] && $_FILES['picture']['error'] === 0) {
-        $actor_obj->subirImagen($_FILES['picture']);
-    }
-
     try {
+        // Establecer propiedades del actor
+        $actor_obj->setNombre($_POST['nombre'])
+            ->setApellido($_POST['apellido'])
+            ->setFechaNacimiento($_POST['fecha_nacimiento'])
+            ->setNacionalidad($_POST['nacionalidad'])
+            ->setGenero($_POST['genero'])
+            ->setIdPlataforma((int)$_POST['id_plataforma']);
+
+        // Establecer los nuevos campos
+        $actor_obj->setFechaDebut($_POST['fecha_debut'] ?: null)
+            ->setEstadoActividad($_POST['estado_actividad'] ?: null)
+            ->setEspecialidad($_POST['especialidad'] ?: null);
+
+        // Manejar carga de imagen
+        if (isset($_FILES['picture']) && $_FILES['picture']['tmp_name'] && $_FILES['picture']['error'] === 0) {
+            $actor_obj->subirImagen($_FILES['picture']);
+        }
+
         // Guardar el actor
         $actor_obj->guardar();
         redirect('listar_actores.php', ['success' => 'Actor guardado']);
+    } catch (InvalidArgumentException $e) {
+        if ($e->getMessage() === "El nombre del actor es obligatorio") {
+            $errores['nombre'] = $e->getMessage();
+        } else {
+            $errores['warning'] = $e->getMessage();
+        }
+        // Actualizar el array de actor para mostrar los valores enviados
+        $actor['nombre'] = $_POST['nombre'] ?? '';
+        $actor['apellido'] = $_POST['apellido'] ?? '';
+        $actor['fecha_nacimiento'] = $_POST['fecha_nacimiento'] ?? '';
+        $actor['nacionalidad'] = $_POST['nacionalidad'] ?? '';
+        $actor['genero'] = $_POST['genero'] ?? '';
+        $actor['id_plataforma'] = (int)($_POST['id_plataforma'] ?? 0);
+        $actor['fecha_debut'] = $_POST['fecha_debut'] ?: null;
+        $actor['estado_actividad'] = $_POST['estado_actividad'] ?: null;
+        $actor['especialidad'] = $_POST['especialidad'] ?: null;
     } catch (Exception $e) {
         if ($e->getCode() === 1) {
             $errores['warning'] = $e->getMessage();
@@ -78,7 +94,7 @@ include '../includes/admin-header.php';
 
 <form action="admin_actor.php?id_actor=<?= $id ?>" method="post" enctype="multipart/form-data">
     <main class="container admin" id="content">
-        <h1>Editar Actor</h1>
+        <h1><?= $id ? 'Editar' : 'Añadir' ?> Actor</h1>
         <?php if ($errores['warning']) { ?>
             <div class="alert alert-danger"><?= $errores['warning'] ?></div>
         <?php } ?>
@@ -105,7 +121,11 @@ include '../includes/admin-header.php';
             <section class="text">
                 <div class="form-group">
                     <label for="nombre">Nombre: </label>
-                    <input type="text" name="nombre" id="nombre" value="<?= html_escape($actor['nombre']) ?>" class="form-control">
+                    <input type="text" name="nombre" id="nombre" value="<?= html_escape($actor['nombre']) ?>"
+                        class="form-control <?= $errores['nombre'] ? 'is-invalid' : '' ?>">
+                    <?php if ($errores['nombre']) { ?>
+                        <div class="invalid-feedback"><?= $errores['nombre'] ?></div>
+                    <?php } ?>
                 </div>
                 <div class="form-group">
                     <label for="apellido">Apellido: </label>
