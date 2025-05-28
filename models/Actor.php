@@ -14,7 +14,6 @@ class Actor
     private string $fecha_nacimiento = '';
     private string $nacionalidad = '';
     private string $genero = '';
-    private int $id_plataforma = 0;
     private ?string $picture = null;
     private ?string $fecha_debut = null;
     private ?string $estado_actividad = null;
@@ -75,12 +74,6 @@ class Actor
         return $this;
     }
 
-    public function setIdPlataforma(int $id_plataforma): self
-    {
-        $this->id_plataforma = $id_plataforma;
-        return $this;
-    }
-
     public function getPicture(): ?string
     {
         return $this->picture;
@@ -112,10 +105,10 @@ class Actor
     // Cargar un actor por ID
     public function cargar(int $id): bool
     {
-        $sql = "SELECT id_actor, nombre, apellido, fecha_nacimiento, nacionalidad, genero, id_plataforma, picture, 
-        fecha_debut, estado_actividad, especialidad 
-        FROM actor 
-        WHERE id_actor = :id_actor";
+        $sql = "SELECT id_actor, nombre, apellido, fecha_nacimiento, nacionalidad, genero, picture, 
+                fecha_debut, estado_actividad, especialidad 
+                FROM actor 
+                WHERE id_actor = :id_actor";
 
         $actor = pdo($this->pdo, $sql, ['id_actor' => $id])->fetch();
 
@@ -129,7 +122,6 @@ class Actor
         $this->fecha_nacimiento = $actor['fecha_nacimiento'];
         $this->nacionalidad = $actor['nacionalidad'];
         $this->genero = $actor['genero'];
-        $this->id_plataforma = (int)$actor['id_plataforma'];
         $this->picture = $actor['picture'];
         $this->fecha_debut = $actor['fecha_debut'];
         $this->estado_actividad = $actor['estado_actividad'];
@@ -142,20 +134,18 @@ class Actor
     public static function obtenerTodos(PDO $pdo): array
     {
         $sql = "SELECT 
-        a.id_actor, 
-        a.nombre, 
-        a.apellido, 
-        a.fecha_nacimiento, 
-        a.nacionalidad, 
-        a.genero, 
-        pl.nombre AS plataforma,
-        a.picture,
-        a.fecha_debut,
-        a.estado_actividad,
-        a.especialidad
-        FROM actor AS a
-        JOIN plataforma AS pl ON a.id_plataforma = pl.id_plataforma
-        ORDER BY a.id_actor DESC";
+                a.id_actor, 
+                a.nombre, 
+                a.apellido, 
+                a.fecha_nacimiento, 
+                a.nacionalidad, 
+                a.genero, 
+                a.picture,
+                a.fecha_debut,
+                a.estado_actividad,
+                a.especialidad
+                FROM actor AS a
+                ORDER BY a.id_actor DESC";
 
         return pdo($pdo, $sql)->fetchAll();
     }
@@ -191,22 +181,20 @@ class Actor
             if ($this->id_actor) {
                 // Actualizar actor existente
                 $sql = "UPDATE actor
-                SET nombre = :nombre, 
-                apellido = :apellido, 
-                fecha_nacimiento = :fecha_nacimiento,
-                nacionalidad = :nacionalidad, 
-                genero = :genero, 
-                id_plataforma = :id_plataforma,
-                fecha_debut = :fecha_debut,
-                estado_actividad = :estado_actividad,
-                especialidad = :especialidad";
+                        SET nombre = :nombre, 
+                            apellido = :apellido, 
+                            fecha_nacimiento = :fecha_nacimiento,
+                            nacionalidad = :nacionalidad, 
+                            genero = :genero, 
+                            fecha_debut = :fecha_debut,
+                            estado_actividad = :estado_actividad,
+                            especialidad = :especialidad";
                 $params = [
                     'nombre' => $this->nombre,
                     'apellido' => $this->apellido,
                     'fecha_nacimiento' => $this->fecha_nacimiento,
                     'nacionalidad' => $this->nacionalidad,
                     'genero' => $this->genero,
-                    'id_plataforma' => $this->id_plataforma,
                     'fecha_debut' => $this->fecha_debut,
                     'estado_actividad' => $this->estado_actividad,
                     'especialidad' => $this->especialidad,
@@ -222,14 +210,13 @@ class Actor
                 $sql .= " WHERE id_actor = :id_actor";
             } else {
                 // Insertar nuevo actor
-                $sql = "INSERT INTO actor (nombre, apellido, fecha_nacimiento, nacionalidad, genero, id_plataforma, fecha_debut, estado_actividad, especialidad";
+                $sql = "INSERT INTO actor (nombre, apellido, fecha_nacimiento, nacionalidad, genero, fecha_debut, estado_actividad, especialidad";
                 $params = [
                     'nombre' => $this->nombre,
                     'apellido' => $this->apellido,
                     'fecha_nacimiento' => $this->fecha_nacimiento,
                     'nacionalidad' => $this->nacionalidad,
                     'genero' => $this->genero,
-                    'id_plataforma' => $this->id_plataforma,
                     'fecha_debut' => $this->fecha_debut,
                     'estado_actividad' => $this->estado_actividad,
                     'especialidad' => $this->especialidad
@@ -241,7 +228,7 @@ class Actor
                     $params['picture'] = $this->picture;
                 }
 
-                $sql .= ") VALUES (:nombre, :apellido, :fecha_nacimiento, :nacionalidad, :genero, :id_plataforma, :fecha_debut, :estado_actividad, :especialidad";
+                $sql .= ") VALUES (:nombre, :apellido, :fecha_nacimiento, :nacionalidad, :genero, :fecha_debut, :estado_actividad, :especialidad";
                 if ($this->picture) {
                     $sql .= ", :picture";
                 }
@@ -314,25 +301,25 @@ class Actor
         }
 
         $sql = "SELECT p.id_pelicula, p.nombre, p.anio_estreno, p.director,
-        pl.nombre AS plataforma,
-        pl.picture AS plataforma_picture,
-        i.archivo AS image_file,
-        i.alt AS image_alt,
-        GROUP_CONCAT(
-            CONCAT(
-                a.nombre, ' ', 
-                a.apellido, ':', 
-                a.picture
-            ) SEPARATOR '|'
-        ) AS actores
-        FROM pelicula AS p
-        JOIN plataforma AS pl ON p.id_plataforma = pl.id_plataforma
-        LEFT JOIN image AS i ON p.id_image = i.id_image
-        LEFT JOIN actor_pelicula AS ap ON p.id_pelicula = ap.id_pelicula
-        LEFT JOIN actor AS a ON ap.id_actor = a.id_actor
-        WHERE a.id_actor = :id_actor
-        GROUP BY p.id_pelicula
-        ORDER BY p.id_pelicula DESC";
+                pl.nombre AS plataforma,
+                pl.picture AS plataforma_picture,
+                i.archivo AS image_file,
+                i.alt AS image_alt,
+                GROUP_CONCAT(
+                    CONCAT(
+                        a.nombre, ' ', 
+                        a.apellido, ':', 
+                        a.picture
+                    ) SEPARATOR '|'
+                ) AS actores
+                FROM pelicula AS p
+                JOIN plataforma AS pl ON p.id_plataforma = pl.id_plataforma
+                LEFT JOIN image AS i ON p.id_image = i.id_image
+                LEFT JOIN actor_pelicula AS ap ON p.id_pelicula = ap.id_pelicula
+                LEFT JOIN actor AS a ON ap.id_actor = a.id_actor
+                WHERE a.id_actor = :id_actor
+                GROUP BY p.id_pelicula
+                ORDER BY p.id_pelicula DESC";
 
         return pdo($this->pdo, $sql, ['id_actor' => $this->id_actor])->fetchAll();
     }
@@ -345,25 +332,25 @@ class Actor
         }
 
         $sql = "SELECT s.id_serie, s.nombre, s.anio_estreno, s.n_temporadas,
-        pl.nombre AS plataforma,
-        pl.picture AS plataforma_picture,
-        i.archivo AS image_file,
-        i.alt AS image_alt,
-        GROUP_CONCAT(
-            CONCAT(
-                a.nombre, ' ', 
-                a.apellido, ':', 
-                a.picture
-            ) SEPARATOR '|'
-        ) AS actores
-        FROM serie AS s
-        JOIN plataforma AS pl ON s.id_plataforma = pl.id_plataforma
-        LEFT JOIN image AS i ON s.id_image = i.id_image
-        LEFT JOIN actor_serie AS as_table ON s.id_serie = as_table.id_serie
-        LEFT JOIN actor AS a ON as_table.id_actor = a.id_actor
-        WHERE a.id_actor = :id_actor
-        GROUP BY s.id_serie
-        ORDER BY s.id_serie DESC";
+                pl.nombre AS plataforma,
+                pl.picture AS plataforma_picture,
+                i.archivo AS image_file,
+                i.alt AS image_alt,
+                GROUP_CONCAT(
+                    CONCAT(
+                        a.nombre, ' ', 
+                        a.apellido, ':', 
+                        a.picture
+                    ) SEPARATOR '|'
+                ) AS actores
+                FROM serie AS s
+                JOIN plataforma AS pl ON s.id_plataforma = pl.id_plataforma
+                LEFT JOIN image AS i ON s.id_image = i.id_image
+                LEFT JOIN actor_serie AS as_table ON s.id_serie = as_table.id_serie
+                LEFT JOIN actor AS a ON as_table.id_actor = a.id_actor
+                WHERE a.id_actor = :id_actor
+                GROUP BY s.id_serie
+                ORDER BY s.id_serie DESC";
 
         return pdo($this->pdo, $sql, ['id_actor' => $this->id_actor])->fetchAll();
     }
@@ -442,7 +429,6 @@ class Actor
             'fecha_nacimiento' => $this->fecha_nacimiento,
             'nacionalidad' => $this->nacionalidad,
             'genero' => $this->genero,
-            'id_plataforma' => $this->id_plataforma,
             'picture' => $this->picture,
             'fecha_debut' => $this->fecha_debut,
             'estado_actividad' => $this->estado_actividad,

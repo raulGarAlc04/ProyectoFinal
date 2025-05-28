@@ -27,7 +27,7 @@ $actores = Actor::obtenerTodos($pdo);
             <th>Fecha Nacimiento</th>
             <th>Nacionalidad</th>
             <th>Género</th>
-            <th>Plataforma</th>
+            <th>Estado</th>
             <th class="edit">Editar</th>
             <th class="del">Eliminar</th>
         </tr>
@@ -42,7 +42,7 @@ $actores = Actor::obtenerTodos($pdo);
                 <td><?= html_escape($actor['fecha_nacimiento']) ?></td>
                 <td><?= html_escape($actor['nacionalidad']) ?></td>
                 <td><?= html_escape($actor['genero']) ?></td>
-                <td><?= html_escape($actor['plataforma']) ?></td>
+                <td><?= html_escape($actor['estado_actividad']) ?></td>
                 <td><a href="admin_actor.php?id_actor=<?= $actor['id_actor'] ?>" class="btn btn-primary">Editar</a></td>
                 <td><a href="actor-delete.php?id_actor=<?= $actor['id_actor'] ?>" class="btn btn-danger">Eliminar</a></td>
             </tr>

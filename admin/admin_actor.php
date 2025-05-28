@@ -48,8 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ->setApellido($_POST['apellido'])
             ->setFechaNacimiento($_POST['fecha_nacimiento'])
             ->setNacionalidad($_POST['nacionalidad'])
-            ->setGenero($_POST['genero'])
-            ->setIdPlataforma((int)$_POST['id_plataforma']);
+            ->setGenero($_POST['genero']);
 
         // Establecer los nuevos campos
         $actor_obj->setFechaDebut($_POST['fecha_debut'] ?: null)
@@ -175,17 +174,6 @@ include '../includes/admin-header.php';
                     <label for="genero">Género: </label>
                     <input type="text" name="genero" id="genero" value="<?= html_escape($actor['genero']) ?>" class="form-control">
                 </div>
-                <div class="form-group">
-                    <label for="id_plataforma">Plataforma: </label>
-                    <select name="id_plataforma" id="plataforma" class="form-control">
-                        <?php foreach ($plataformas as $plataforma) { ?>
-                            <option value="<?= $plataforma['id_plataforma'] ?>" <?= ($actor['id_plataforma'] == $plataforma['id_plataforma']) ? 'selected' : '' ?>>
-                                <?= html_escape($plataforma['nombre']) ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                </div>
-
                 <div class="form-actions">
                     <input type="submit" name="actualizar" value="Guardar" class="btn btn-primary">
                     <a href="listar_actores.php" class="btn btn-secondary">Cancelar</a>
