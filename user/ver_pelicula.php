@@ -171,7 +171,7 @@ if ($id_usuario) {
         <?php endif; ?>
 
         <p class="credit">
-            Disponible en <a href="plataforma.php?id_plataforma=<?= $pelicula['id_plataforma'] ?>">
+            Disponible en <a href="ver_plataforma.php?id_plataforma=<?= $pelicula['id_plataforma'] ?>">
                 <?= html_escape($pelicula['plataforma']) ?>
             </a>
         </p>
