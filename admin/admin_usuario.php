@@ -163,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Añadir password si se ha actualizado
                 if (!empty($usuario['password'])) {
                     $sql .= ", password = :password";
-                    $params['password'] = password_hash($usuario['password'], PASSWORD_DEFAULT);
+                    $params['password'] = $usuario['password'];
                 }
                 
                 $sql .= " WHERE id = :id";
@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     'nombre' => $usuario['nombre'],
                     'apellidos' => $usuario['apellidos'],
                     'email' => $usuario['email'],
-                    'password' => password_hash($usuario['password'], PASSWORD_DEFAULT),
+                    'password' => $usuario['password'],
                     'foto_perfil' => $usuario['foto_perfil'] ?: 'blank.png',
                     'es_admin' => $usuario['es_admin'],
                     'activo' => $usuario['activo']
