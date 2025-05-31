@@ -4,7 +4,7 @@ declare(strict_types=1);
 include '../includes/database-connection.php';
 include '../includes/functions.php';
 include '../includes/validate.php';
-include '../models/Actor.php'; // Incluir la nueva clase
+include '../models/Actor.php';
 
 $uploads = dirname(__DIR__, 1) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
 $id = filter_input(INPUT_GET, 'id_actor', FILTER_VALIDATE_INT);
@@ -48,10 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ->setApellido($_POST['apellido'])
             ->setFechaNacimiento($_POST['fecha_nacimiento'])
             ->setNacionalidad($_POST['nacionalidad'])
-            ->setGenero($_POST['genero']);
-
-        // Establecer los nuevos campos
-        $actor_obj->setFechaDebut($_POST['fecha_debut'] ?: null)
+            ->setGenero($_POST['genero'])
+            ->setFechaDebut($_POST['fecha_debut'] ?: null)
             ->setEstadoActividad($_POST['estado_actividad'] ?: null)
             ->setEspecialidad($_POST['especialidad'] ?: null);
 

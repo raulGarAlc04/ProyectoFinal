@@ -2,7 +2,7 @@
 declare(strict_types=1);
 require '../includes/database-connection.php';
 require '../includes/functions.php';
-require '../models/Serie.php'; // Incluir la nueva clase
+require '../models/Serie.php';
 
 $id = filter_input(INPUT_GET, 'id_serie', FILTER_VALIDATE_INT);
 if (!$id) {

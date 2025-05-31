@@ -2,7 +2,7 @@
 include '../includes/database-connection.php';
 include '../includes/functions.php';
 include '../includes/validate.php';
-include '../models/Pelicula.php'; // Incluir la nueva clase
+include '../models/Pelicula.php';
 
 $uploads = dirname(__DIR__, 1) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
 $id = filter_input(INPUT_GET, 'id_pelicula', FILTER_VALIDATE_INT);

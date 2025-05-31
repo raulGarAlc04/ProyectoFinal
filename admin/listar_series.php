@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require '../includes/database-connection.php';
 require '../includes/functions.php';
-require '../models/Serie.php'; // Incluir la nueva clase
+require '../models/Serie.php';
 
 $success = $_GET['success'] ?? null;
 $failure = $_GET['failure'] ?? null;

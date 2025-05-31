@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require '../includes/database-connection.php';
 require '../includes/functions.php';
-require '../models/Actor.php'; // Incluir la nueva clase
+require '../models/Actor.php';
 
 $id = filter_input(INPUT_GET, 'id_actor', FILTER_VALIDATE_INT);
 

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require '../includes/database-connection.php';
 require '../includes/functions.php';
-require '../models/Plataforma.php'; // Incluir la nueva clase
+require '../models/Plataforma.php';
 
 $id = filter_input(INPUT_GET, 'id_plataforma', FILTER_VALIDATE_INT);
 if (!$id) {
@@ -52,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="alert alert-warning">
                 <p><strong>Advertencia:</strong> Esta plataforma tiene <?= $contenido_asociado['total'] ?>
                     elementos de contenido asociados (películas y/o series).</p>
-                <p>Si elimina esta plataforma, se perderán estas relaciones.</p>
             </div>
         <?php } ?>
 

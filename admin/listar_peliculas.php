@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 require '../includes/database-connection.php';
 require '../includes/functions.php';
-require '../models/Pelicula.php'; // Incluir la nueva clase
+require '../models/Pelicula.php';
 
 $success = $_GET['success'] ?? null;
 $failure = $_GET['failure'] ?? null;

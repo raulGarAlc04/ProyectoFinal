@@ -4,7 +4,7 @@ declare(strict_types=1);
 include '../includes/database-connection.php';
 include '../includes/functions.php';
 include '../includes/validate.php';
-include '../models/Plataforma.php'; // Incluir la nueva clase
+include '../models/Plataforma.php';
 
 $uploads = dirname(__DIR__, 1) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
 $id = filter_input(INPUT_GET, 'id_plataforma', FILTER_VALIDATE_INT);

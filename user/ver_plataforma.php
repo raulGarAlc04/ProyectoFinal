@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require '../includes/database-connection.php';
 require '../includes/functions.php';
-require '../models/Plataforma.php'; // Incluir la nueva clase
+require '../models/Plataforma.php';
 
 $id = filter_input(INPUT_GET, 'id_plataforma', FILTER_VALIDATE_INT);
 

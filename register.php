@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':nombre' => $usuario['nombre'],
                     ':apellidos' => $usuario['apellidos'],
                     ':email' => $usuario['email'],
-                    ':password' => $usuario['password'], // En producción usar password_hash()
+                    ':password' => $usuario['password'],
                     ':foto_perfil' => $foto_perfil
                 ];
 

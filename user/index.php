@@ -26,7 +26,6 @@ $description = 'El mundo de las peliculas y series';
 ?>
 <?php include '../includes/header.php'; ?>
 
-<!-- BLOQUE NUEVO: PLATAFORMAS FAVORITAS DEL USUARIO -->
 <?php
 $plataformas_favoritas = [];
 if (isset($_SESSION['user_id'])) {
