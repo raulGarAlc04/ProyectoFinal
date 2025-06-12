@@ -145,7 +145,6 @@ include '../includes/admin-header.php';
                         <option value="">Seleccionar estado</option>
                         <option value="Activo" <?= ($actor['estado_actividad'] == 'Activo') ? 'selected' : '' ?>>Activo</option>
                         <option value="Retirado" <?= ($actor['estado_actividad'] == 'Retirado') ? 'selected' : '' ?>>Retirado</option>
-                        <option value="En pausa" <?= ($actor['estado_actividad'] == 'En pausa') ? 'selected' : '' ?>>En pausa</option>
                     </select>
                 </div>
 
