@@ -121,7 +121,7 @@ include '../includes/admin-header.php';
                     <input type="text" name="nombre" id="nombre" value="<?= html_escape($actor['nombre']) ?>"
                         class="form-control <?= $errores['nombre'] ? 'is-invalid' : '' ?>">
                     <?php if ($errores['nombre']) { ?>
-                        <div class="invalid-feedback"><?= $errores['nombre'] ?></div>
+                        <div class="alert alert-danger"><?= $errores['nombre'] ?></div>
                     <?php } ?>
                 </div>
                 <div class="form-group">
